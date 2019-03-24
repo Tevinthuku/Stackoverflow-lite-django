@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'stackoverflow.apps.questions.apps.QuestionsConfig',
-    'stackoverflow.apps.comments.apps.CommentsConfig'
+    'stackoverflow.apps.comments.apps.CommentsConfig',
+    'stackoverflow.apps.authentication.apps.AuthenticationConfig'
 ]
 
 MIDDLEWARE = [
