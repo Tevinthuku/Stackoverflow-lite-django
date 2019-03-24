@@ -11,5 +11,5 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "question",
-            "comment"
+            "body"
         ]

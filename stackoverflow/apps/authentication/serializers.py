@@ -63,4 +63,5 @@ class LoginSerializer(serializers.Serializer):
     token = serializers.SerializerMethodField(read_only=True)
 
     def get_token(self, user):
-        return Token.objects.create(user=user).key
+        token, created = Token.objects.get_or_create(user=user)
+        return token.key

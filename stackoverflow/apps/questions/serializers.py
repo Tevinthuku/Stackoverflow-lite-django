@@ -11,8 +11,10 @@ class QuestionsSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
-            "description"
+            "description",
+            "author"
         ]
+        read_only_fields = ["author"]
 
 
 class SingleQuestionSerializer(serializers.ModelSerializer):
@@ -24,7 +26,8 @@ class SingleQuestionSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "description",
-            "comments_list"
+            "comments_list",
+            "author"
         ]
 
     def get_comments_list(self, obj):

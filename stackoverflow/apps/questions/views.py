@@ -3,6 +3,7 @@ from rest_framework import permissions
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
+from stackoverflow.apps.core.permissions import IsOwnerOrReadOnly
 from .pagination import QuestionsPagination
 
 from .models import Question
@@ -16,9 +17,16 @@ class QuestionsView(generics.ListCreateAPIView):
     pagination_class = QuestionsPagination
     queryset = Question.objects.all()
 
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-class SingleQuestionView(generics.RetrieveAPIView):
-    permission_classes = [permissions.AllowAny]
+    def perform_create(self, serializer):
+        return serializer.save(author=self.request.user)
+
+
+class SingleQuestionView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [
+        IsOwnerOrReadOnly]
     serializer_class = SingleQuestionSerializer
     queryset = Question.objects.all()
     lookup_field = 'id'
