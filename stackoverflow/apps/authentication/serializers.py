@@ -47,3 +47,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user_object.set_password(vallidated_data.get("password"))
         user_object.save()
         return user_object
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=255)
+    username = serializers.CharField(max_length=255, read_only=True)
+    password = serializers.CharField(max_length=128, write_only=True)
