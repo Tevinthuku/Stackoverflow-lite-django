@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'stackoverflow.apps.questions.apps.QuestionsConfig',
     'stackoverflow.apps.comments.apps.CommentsConfig',
     'stackoverflow.apps.authentication.apps.AuthenticationConfig'

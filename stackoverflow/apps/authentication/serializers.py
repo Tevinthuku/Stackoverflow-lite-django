@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+
 
 User = get_user_model()
 
@@ -7,6 +9,7 @@ User = get_user_model()
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
+    token = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -15,7 +18,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "password",
-            "password2"
+            "password2",
+            "token"
         ]
 
     def validate_email(self, email):
@@ -48,8 +52,15 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user_object.save()
         return user_object
 
+    def get_token(self, user):
+        return Token.objects.create(user=user).key
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
+    token = serializers.SerializerMethodField(read_only=True)
+
+    def get_token(self, user):
+        return Token.objects.create(user=user).key
