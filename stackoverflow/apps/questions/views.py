@@ -11,7 +11,7 @@ from .serializers import (QuestionsSerializer, SingleQuestionSerializer)
 
 
 class QuestionsView(generics.ListCreateAPIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = QuestionsSerializer
     pagination_class = QuestionsPagination
     queryset = Question.objects.all()
