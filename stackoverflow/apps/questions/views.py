@@ -7,6 +7,7 @@ from stackoverflow.apps.core.permissions import IsOwnerOrReadOnly
 from .pagination import QuestionsPagination
 
 from .models import Question
+from .renderers import BaseRenderer
 from .serializers import (QuestionsSerializer, SingleQuestionSerializer)
 # Create your views here.
 
@@ -15,6 +16,7 @@ class QuestionsView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = QuestionsSerializer
     pagination_class = QuestionsPagination
+    renderer_classes = (BaseRenderer,)
     queryset = Question.objects.all()
 
     def post(self, request, *args, **kwargs):
