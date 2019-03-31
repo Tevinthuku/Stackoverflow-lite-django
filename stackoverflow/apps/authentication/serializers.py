@@ -1,4 +1,6 @@
+import jwt
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -53,7 +55,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user_object
 
     def get_token(self, user):
-        return Token.objects.create(user=user).key
+        payload = {
+            'email': user.email,
+        }
+        token = jwt.encode(
+            payload,
+            settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+        return token
 
 
 class LoginSerializer(serializers.Serializer):
@@ -63,5 +71,10 @@ class LoginSerializer(serializers.Serializer):
     token = serializers.SerializerMethodField(read_only=True)
 
     def get_token(self, user):
-        token, created = Token.objects.get_or_create(user=user)
-        return token.key
+        payload = {
+            'email': user.email,
+        }
+        token = jwt.encode(
+            payload,
+            settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+        return token

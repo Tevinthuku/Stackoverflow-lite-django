@@ -10,6 +10,5 @@ class BaseRenderer(JSONRenderer):
         if errors is not None:
             return super(BaseRenderer, self).render(data)
         return json.dumps({
-            "status": "success",
             "data": data
         })
